@@ -10,7 +10,15 @@
 
 @interface CalculatorViewController : UIViewController
 
+/*
+ * Main calculator display.
+ */
 @property (weak, nonatomic) IBOutlet UILabel *display;
+
+/*
+ * Shows the history of all operands that have been entered since
+ * display was last cleared.
+ */
 @property (weak, nonatomic) IBOutlet UILabel *displayHistory;
 
 @end

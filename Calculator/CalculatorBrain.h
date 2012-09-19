@@ -8,10 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+/*
+ * The brain of a RPN calculator.
+ */
 @interface CalculatorBrain : NSObject
 
-- (void)pushOperand:(double)operand;
-- (double)performOperation:(NSString *)operation;
+/*
+ * Clear the calculator brain.
+ */
 - (void)clear;
+
+/*
+ * Perform the specified operation. Returns the result.
+ */
+- (double)performOperation:(NSString *)operation;
+
+/*
+ * Push an operand onto the brain's stack.
+ */
+- (void)pushOperand:(double)operand;
 
 @end

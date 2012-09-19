@@ -9,10 +9,20 @@
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
 
-@interface CalculatorViewController ()
+/*
+ * Private Interface
+ */
+@interface CalculatorViewController()
 
-@property (nonatomic) BOOL userIsInMiddleOfEnteringNumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
+@property (nonatomic) BOOL userIsInMiddleOfEnteringNumber;
+
+- (void)appendDigit:(NSString *)digit;
+- (void)appendToDisplayHistory:(NSString *)text;
+- (IBAction)clear;
+- (IBAction)digitPressed:(UIButton *)sender;
+- (IBAction)enterPressed;
+- (IBAction)operationPressed:(UIButton *)sender;
 
 @end
 
@@ -20,8 +30,14 @@
 
 @synthesize display = _display;
 @synthesize displayHistory = _displayHistory;
-@synthesize userIsInMiddleOfEnteringNumber = _userIsInMiddleOfEnteringNumber;
+
+/*
+ * Private Implementation
+ * ----------------------
+ */
+
 @synthesize brain = _brain;
+@synthesize userIsInMiddleOfEnteringNumber = _userIsInMiddleOfEnteringNumber;
 
 - (CalculatorBrain *)brain {
     if (!_brain) {
@@ -29,11 +45,6 @@
     }
     
     return _brain;
-}
-
-- (void)appendToDisplayHistory:(NSString *)text {
-    NSString *displayHistoryText = [text stringByAppendingString:@" "];
-    self.displayHistory.text = [self.displayHistory.text stringByAppendingString:displayHistoryText];    
 }
 
 - (void)appendDigit:(NSString *)digit {
@@ -45,6 +56,18 @@
         self.display.text = [self.display.text stringByAppendingString:digit];
     }
 }
+
+- (void)appendToDisplayHistory:(NSString *)text {
+    NSString *displayHistoryText = [text stringByAppendingString:@" "];
+    self.displayHistory.text = [self.displayHistory.text stringByAppendingString:displayHistoryText];    
+}
+
+- (IBAction)clear {
+    [self.brain clear];
+    self.display.text = @"0";
+    self.displayHistory.text = @"";
+}
+
 
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = [sender currentTitle];
@@ -72,12 +95,6 @@
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
     [self appendToDisplayHistory:operation];
-}
-
-- (IBAction)clear {
-    [self.brain clear];
-    self.display.text = @"0";
-    self.displayHistory.text = @"";
 }
 
 @end

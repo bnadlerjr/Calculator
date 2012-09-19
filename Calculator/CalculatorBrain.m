@@ -8,45 +8,21 @@
 
 #import "CalculatorBrain.h"
 
+/*
+ * Private Interface
+ */
 @interface CalculatorBrain()
 
 @property (nonatomic, strong) NSMutableArray *operandStack;
+
+- (double)popOperand;
 
 @end
 
 @implementation CalculatorBrain
 
-@synthesize operandStack = _operandStack;
-
-- (NSMutableArray *) operandStack {
-    if (!_operandStack) {
-        _operandStack = [[NSMutableArray alloc] init];
-    }
-    
-    return _operandStack;
-}
-
 - (void)clear {
     [self.operandStack removeAllObjects];
-}
-
-- (void)pushOperand:(double)operand {
-    NSNumber *operandObject = [NSNumber numberWithDouble:operand];
-    [self.operandStack addObject:operandObject];
-}
-
-/* QUESTION:
- * Shouldn't I need to declare this message in the private interface? Or is the
- * convention to put private messages first so that you don't need to do that?
- */
-- (double)popOperand {
-    NSNumber *operandObject = [self.operandStack lastObject];
-    
-    if (operandObject) {
-        [self.operandStack removeLastObject];
-    }
-    
-    return [operandObject doubleValue];
 }
 
 - (double)performOperation:(NSString *)operation {
@@ -84,6 +60,36 @@
     [self pushOperand:result];
     
     return result;
+}
+
+- (void)pushOperand:(double)operand {
+    NSNumber *operandObject = [NSNumber numberWithDouble:operand];
+    [self.operandStack addObject:operandObject];
+}
+
+/*
+ * Private Implementation
+ * ----------------------
+ */
+
+@synthesize operandStack = _operandStack;
+
+- (NSMutableArray *) operandStack {
+    if (!_operandStack) {
+        _operandStack = [[NSMutableArray alloc] init];
+    }
+    
+    return _operandStack;
+}
+
+- (double)popOperand {
+    NSNumber *operandObject = [self.operandStack lastObject];
+    
+    if (operandObject) {
+        [self.operandStack removeLastObject];
+    }
+    
+    return [operandObject doubleValue];
 }
 
 @end
